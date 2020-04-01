@@ -66,7 +66,7 @@ var BlogDirectory = {
             currentpos += dist; 
         } 
         if (currentpos > finalpos) { 
-            dist = Math.ceil((currentpos - finalpos)/15); 
+            dist = Math.ceil((currentpos - finalpos)/10); 
             currentpos -= dist; 
         }
         
@@ -202,27 +202,27 @@ var BlogDirectory = {
         
 		//如果没有标题则返回false
         if(num == 0) return false; 
-		//判断是不是PC端的函数
-		function IsPC() {
-			var userAgentInfo = navigator.userAgent;
-			var Agents = ["Android", "iPhone",
-            "SymbianOS", "Windows Phone",
-            "iPad", "iPod"];
-			var flag = true;
-			for (var v = 0; v < Agents.length; v++) {
-				if (userAgentInfo.indexOf(Agents[v]) > 0) {
-					flag = false;
-					break;
-				}
-			}
-			return flag;
-		}
-		
-		//判断是不是PC端
-		var isPC = IsPC();
-		
-        /*鼠标进入divSideBarTab时的事件处理：目录内容的div容器展示*/
+
+        /*鼠标进入divSideBarTap时的事件处理*/
+        var timerId1;
         divSideBarTab.onmouseenter = function(){
+			function IsPC() {
+				var userAgentInfo = navigator.userAgent;
+				var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+				var flag = true;
+				for (var v = 0; v < Agents.length; v++) {
+					if (userAgentInfo.indexOf(Agents[v]) > 0) {
+						flag = false;
+						break;
+					}
+				}
+				return flag;
+			}
+
+var isPC = IsPC();
+
 			if(isPC){
 				/*显示目录内容*/
 				divSideBarContents.style.display = "block";
@@ -234,16 +234,15 @@ var BlogDirectory = {
 				/*隐藏目录按钮*/
 				divSideBarTab.style.display = 'none';
 				//设置为不透明
-				divSideBarContents.style.opacity=0;
+				divSideBarContents.style.opacity=1;
 			}
-			
         }
-		
-		divSideBarContents.onmouseenter = function(){
+//鼠标进入divSideBar时的动作
+		divSideBar.onmouseenter = function(){
 			if(timerId1){clearTimeout(timerId1);}
 		}
-		
-        /*鼠标离开divSideBar时的事件处理：目录内容的div容器不展示*/
+
+        /*鼠标离开时的事件处理*/
         divSideBar.onmouseleave = function() {
 				timerId1 = setTimeout(function(){
 							/*隐藏目录内容*/
@@ -260,6 +259,6 @@ var BlogDirectory = {
 
 window.onload=function(){
     /*页面加载完成之后生成博客目录*/
-    BlogDirectory.createBlogDirectory("cnblogs_post_body","h2","h3",20);
+    BlogDirectory.createBlogDirectory("cnblogs_post_body","h2","h3",10);
 }
 </script>
