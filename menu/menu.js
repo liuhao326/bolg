@@ -4,6 +4,8 @@
     测试：IE8，火狐，google测试通过
     孤傲苍狼
     2014-5-11
+    liuhao326修改
+    2020-4-1
 */
 var BlogDirectory = {
     /*
