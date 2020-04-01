@@ -22,12 +22,12 @@
 	/*float CSS属性指定一个元素应沿其容器的左侧或右侧放置，允许文本和内联元素环绕它。
 	left表明sideBarTab元素必须浮动在其所在的块容器左侧。*/
     float:left;
-    width:30px;
+    width:20px;
 	/*CSS的border属性是一个用于设置各种单独的边界属性的简写属性。border可以用于设置一个或多个以下属性的值： border-width, border-style, border-color。
 	border-width 属性可以设置盒子模型的边框宽度。它是border-top-width, border-right-width, border-bottom-width, 和 border-left-width的简写。
 	border-style 是一个 CSS 简写属性，用来设定元素所有边框的样式。solid表示边界显示为一条实线。
 	*/
-    border:1px solid #e5e5e5;
+    border:1.5px solid rgba(255,255,255,1);
 	/*CSS属性 border-right 是属性border-right-color, border-right-style, 和border-right-width的三者的缩写。这些属性都是在描述一个元素的右边的边框border。这里的none表明sideBarTab距离容器右边的边界为0*/
     border-right:none;
 	/*设置其中文字居中*/
@@ -62,10 +62,18 @@
 	/*设置左下圆角*/
 	border-bottom-left-radius:4px;
 	border-top-left-radius:4px;
+	/*设置为透明*/
+    	opacity: 0;
+    	/*设置目录内容渐变*/
+    	transition: all 1s linear;
 	/*鼠标样式*/
 	/*cursor CSS属性定义鼠标指针悬浮在元素上方显示的鼠标光标。
 	这里设置为pointer，悬浮于连接上时，通常为手*/
 	cursor: pointer;
+}
+/*设置鼠标悬停事件*/
+#sideBarContents:hover{
+opacity:1;
 }
 #sideBarContents dl{/*设置直接包含目录内容的容器*/
 	/*margin属性为给定元素设置所有四个（上下左右）方向的外边距属性。 这是四个外边距属性设置的简写。四个外边距属性设置分别是： margin-top， margin-right， margin-bottom 和 margin-left 。指定的外边距允许为负数。*/
