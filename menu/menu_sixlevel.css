@@ -1,0 +1,118 @@
+/*生成博客目录的CSS*/
+#uprightsideBar{/*设置整个目录部分的div容器*/
+    font-size:12px;
+	/*
+	CSS 属性 font-family 允许您通过给定一个有先后顺序的，由字体名或者字体族名组成的列表来为选定的元素设置字体。
+	属性值用逗号隔开。 浏览器会选择列表中第一个该计算机上有安装的字体，或者是通过 @font-face 指定的可以直接下载的字体。
+	*/
+    font-family:Arial, Helvetica, sans-serif;
+	/*
+	text-align CSS属性定义行内内容（例如文字）如何相对它的块父元素对齐。
+	这里将其设置为左对齐
+	*/
+    text-align:left;
+	/*将div的位置固定到距离top:50px，right:0px的位置，这样div就会处在最右边的位置，距离顶部50px*/
+    position:fixed;
+    top:50px;
+    right:0px;
+	/*width 属性指定了元素内容区的宽度.*/
+    width: auto;
+    height: auto; 
+}
+#sideBarTab{/*设置"目录导航"部分的div容器*/
+	/*float CSS属性指定一个元素应沿其容器的左侧或右侧放置，允许文本和内联元素环绕它。
+	left表明sideBarTab元素必须浮动在其所在的块容器左侧。*/
+    float:left;
+    width:20px;
+	/*CSS的border属性是一个用于设置各种单独的边界属性的简写属性。border可以用于设置一个或多个以下属性的值： border-width, border-style, border-color。
+	border-width 属性可以设置盒子模型的边框宽度。它是border-top-width, border-right-width, border-bottom-width, 和 border-left-width的简写。
+	border-style 是一个 CSS 简写属性，用来设定元素所有边框的样式。solid表示边界显示为一条实线。
+	*/
+    border:1.5px solid rgba(255,255,255,1);
+	/*CSS属性 border-right 是属性border-right-color, border-right-style, 和border-right-width的三者的缩写。这些属性都是在描述一个元素的右边的边框border。这里的none表明sideBarTab距离容器右边的边界为0*/
+    border-right:none;
+	/*设置其中文字居中*/
+    text-align:center;
+	/*设置背景为白色透明*/
+    background:rgba(255,255,255,0);
+	/*设置左上圆角*/
+	border-top-left-radius:6px;
+	/*设置左下圆角*/
+	border-bottom-left-radius:6px;
+	/*渐变为透明动画*/
+	animation:myfirst 5s;
+	-webkit-animation:myfirst 5s;
+}
+/*渐变为透明动画*/
+@keyframes myfirst
+{
+	from {background:rgba(255,255,255,1);}
+	to {background:rgba(255,255,255,0);}
+}
+#sideBarContents{/*设置目录内容的div容器*/
+	/*CSS属性 overflow 定义当一个元素的内容太大而无法适应块级格式化上下文 时候该做什么。它是 overflow-x 和overflow-y的 简写属性 。*/
+	/*当一个块级元素的内容在水平方向发生溢出时，CSS属性overflow-x决定应该截断溢出内容，或者显示滚动条，或者直接显示溢出内容。hidden表示内容会被截断，且不会显示滚动条。*/
+    overflow:auto; 	
+    overflow-x:hidden;!important;
+    width:auto;
+    min-height:108px;
+    max-height:460px;
+    border:1px solid #e5e5e5;
+    border-right:none; 
+    background:#ffffff;
+	/*设置左下圆角*/
+	border-bottom-left-radius:4px;
+	border-top-left-radius:4px;
+	/*设置为透明*/
+    opacity: 0;
+    /*设置目录内容渐变*/
+    transition: all 1s linear;
+	/*鼠标样式*/
+	/*cursor CSS属性定义鼠标指针悬浮在元素上方显示的鼠标光标。
+	这里设置为pointer，悬浮于连接上时，通常为手*/
+	cursor: pointer;
+}
+/*设置鼠标悬停事件*/
+#sideBarContents:hover{
+opacity:1;
+}
+#sideBarContents dl{/*设置直接包含目录内容的容器*/
+	/*margin属性为给定元素设置所有四个（上下左右）方向的外边距属性。 这是四个外边距属性设置的简写。四个外边距属性设置分别是： margin-top， margin-right， margin-bottom 和 margin-left 。指定的外边距允许为负数。*/
+    margin:0;
+	/*padding属性设置一个元素的内边距，padding 区域指一个元素的内容和其边界之间的空间，该属性不能为负值。*/
+    padding:0;
+}
+/*设置一级目录左边距*/
+#sideBarContents de{
+	/* margin-top 属性用来设置元素的顶部外边距，可以使用负值。*/
+    margin-top:5px;
+    margin-left:5px;
+	display:block;
+}
+/*设置二级目录左边距*/
+#sideBarContents dt{
+    margin-left:17px;
+}
+/*设置三级目录左边距*/
+#sideBarContents dd{
+    margin-left:29px;
+}
+/*设置四级目录左边距*/
+#sideBarContents df{
+    margin-left:41px;
+	display:block;
+}
+/*设置五级目录左边距*/
+#sideBarContents dg{
+    margin-left:53px;
+	display:block;
+}
+/*设置六级目录左边距*/
+#sideBarContents dh{
+    margin-left:65px;
+	display:block;
+}
+/*设置鼠标悬停于目录时文字的颜色*/
+#sideBarContents dd:hover, dt:hover,de:hover,df:hover,dg:hover,dh:hover {
+    color:#A7995A;
+}
