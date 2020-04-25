@@ -19,7 +19,7 @@
     width: auto;
     height: auto; 
 }
-#sideBarTab{/*设置"目录导航"部分的div容器*/
+#sideBarTab{/*设置"目录"部分的div容器*/
 	/*float CSS属性指定一个元素应沿其容器的左侧或右侧放置，允许文本和内联元素环绕它。
 	left表明sideBarTab元素必须浮动在其所在的块容器左侧。*/
     float:left;
@@ -53,10 +53,9 @@
 	/*CSS属性 overflow 定义当一个元素的内容太大而无法适应块级格式化上下文 时候该做什么。它是 overflow-x 和overflow-y的 简写属性 。*/
 	/*当一个块级元素的内容在水平方向发生溢出时，CSS属性overflow-x决定应该截断溢出内容，或者显示滚动条，或者直接显示溢出内容。hidden表示内容会被截断，且不会显示滚动条。*/
     overflow:auto; 	
+	/*当在一个样式声明中使用一个 !important 规则时，此声明将覆盖任何其他声明。*/
     overflow-x:hidden;!important;
     width:auto;
-    min-height:108px;
-    max-height:460px;
     border:1px solid #e5e5e5;
     border-right:none; 
     background:#ffffff;
