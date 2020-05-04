@@ -183,7 +183,7 @@ var BlogDirectory = {
 						};
 						//滚动条到顶部的距离减去标题到顶部的距离
 						var s = BlogDirectory.getScrollBarPosition() - finalpositon;
-						if(s <= 0 && s >= -10){
+						if(s <= 0 && s >= -15){
 							cancelAnimationFrame(timer);
 							window.onmousewheel = function(){
 							return true;
