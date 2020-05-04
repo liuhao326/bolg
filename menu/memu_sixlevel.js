@@ -5,7 +5,8 @@
     孤傲苍狼
     2014-5-11
     liuhao326修改
-    2020-4-1
+    2020-4-1初步完善
+	2020-5-4提升跳转流畅度
 */
 var BlogDirectory = {
     /*
@@ -23,75 +24,13 @@ var BlogDirectory = {
     },
 
     /*
-    获取滚动条当前位置
+    获取滚动条到顶部的距离
     */
     getScrollBarPosition:function () {
         var scrollBarPosition = document.body.scrollTop || document.documentElement.scrollTop;
         return  scrollBarPosition;
     },
     
-    /*
-    点击目录标题后调用实现移动滚动条至目的地，finalPos 为目的位置，internal 为移动速度
-    */
-    moveScrollBar:function(finalpos, interval) {
-
-        //若不支持此方法，则退出
-        if(!window.scrollTo) {
-            return false;
-        }
-
-        //窗体滚动时，禁用鼠标滚轮
-        window.onmousewheel = function(){
-            return false;
-        };
-          
-        //清除计时
-        if (document.body.movement) { 
-            clearTimeout(document.body.movement); 
-        } 
-		
-		//获取滚动条当前位置currentpos
-        var currentpos =BlogDirectory.getScrollBarPosition();
-
-        var dist = 0; 
-        if (currentpos == finalpos) {//若已到达预定位置，则解禁鼠标滚轮，并退出
-            window.onmousewheel = function(){
-                return true;
-            }
-            return true; 
-        } 
-		
-		/*未到达预定位置，则计算**下一步**所要移动的距离，其中除以10表明移动分十步完成*/
-        if (currentpos < finalpos) {
-			//Math.ceil()函数返回大于或等于一个给定数字的最小整数。
-            dist = Math.ceil((finalpos - currentpos)/15); 
-            currentpos += dist; 
-        } 
-        if (currentpos > finalpos) { 
-            dist = Math.ceil((currentpos - finalpos)/10); 
-            currentpos -= dist; 
-        }
-        
-		//获取滚动条当前位置scrTop
-        var scrTop = BlogDirectory.getScrollBarPosition();
-		//移动一步窗口
-        window.scrollTo(0, currentpos);
-		/*移动完上一步以后若已到底部（即已移动到锚点位置）， 则解禁鼠标滚轮，并退出*/
-        if(BlogDirectory.getScrollBarPosition() == scrTop)
-        {
-            window.onmousewheel = function(){
-                return true;
-            }
-            return true;
-        }
-        
-        /*如果没有到达锚点位置，则进行**下一步**移动*/
-        var repeat = "BlogDirectory.moveScrollBar(" + finalpos + "," + interval + ")"; 	
-		//setTimeout()方法设置一个定时器，该定时器在定时器到期后执行一个函数或指定的一段代码。
-		//返回值timeoutID是一个正整数， 表示定时器的编号。这个值可以传递给clearTimeout()来取消该定时器。
-		//返回值赋值给当前文档中<body>元素或<frameset>元素的movement值
-        document.body.movement = setTimeout(repeat, interval); 
-    },
     /*******************************************************************************************************************************/
 	/*用于解码处HTML中的正确内容*/
 	//Element.innerHTML 属性设置或获取HTML语法表示的元素的后代。如果一个 <div>, <span>, 或 <noembed> 节点有一个文本子节点，该节点包含字符 (&), (<),  或(>), innerHTML 将这些字符分别返回为&amp;, &lt; 和 &gt; 。所以不能够用innerHTML直接获得文本内容。
@@ -113,9 +52,7 @@ var BlogDirectory = {
 
     /*
     创建博客目录，
-    id表示包含博文正文的 div 容器的 id，
-    mt 和 st 分别表示主标题和次级标题的标签名称（如 H2、H3，大写或小写都可以！），
-    interval 表示移动的速度
+    id表示包含博文正文的 div 容器的 id.
     */
     createBlogDirectory:function (id, t2, t3, t1, t4, t5, t6, interval){
         //获取博文正文div容器elem
@@ -168,7 +105,9 @@ var BlogDirectory = {
         var dlist = document.createElement("dl");
 		//将dlist（所有标题的容器）设置为divSideBarContents（目录内容的div容器）的子元素
         divSideBarContents.appendChild(dlist);
-		//创建num统计找到第几个mt和st（<h2>，<h3>标签数）用于标题锚点
+		/*******************************************************************************************************************************/
+        /*遍历正文div容器elem中所有元素的HTMLCollection列表nodes并生成标题*/
+		//创建num统计找到第几个<h2>,<h3>,<h1>,<h4>,<h5>,<h6>标签，用于标题锚点
         var num = 0;
         t2 = t2.toUpperCase();//转化成大写方便创建元素
         t3 = t3.toUpperCase();//转化成大写方便创建元素
@@ -176,19 +115,21 @@ var BlogDirectory = {
 		t4 = t4.toUpperCase();
 		t5 = t5.toUpperCase();
 		t6 = t6.toUpperCase();
-		/*******************************************************************************************************************************/
-        /*遍历正文div容器elem中的所有元素的HTMLCollection列表nodes并生成标题*/
         for(var i=0; i<nodes.length; i++)
         {
-			//判断元素名是不是H2或H3（是不是我们所要找的标题）
+			//判断元素名是不是H2,H3,H1,H4,h5,H6中的某一个（判断是不是标题）
             if(nodes[i].nodeName == t2|| nodes[i].nodeName == t3||nodes[i].nodeName == t1||nodes[i].nodeName == t4||nodes[i].nodeName == t5||nodes[i].nodeName == t6)    
             {
+				/**********************************/
+				/*处理数据*/
                 //将元素的标签符号替换为空字符，获取标题内的文本，g表示全局替换
                 var nodetext = nodes[i].innerHTML.replace(/<\/?[^>]+>/g,"");
 				//不区分大小写模式全局替换掉" "（空格），i表示不区分大小写
                 nodetext = nodetext.replace(/ /ig, "");
 				//对得到的nodetext进行处理（防止nodetext中的<>等符号变为HTML语法形式，使得标题内容出错），处理的结果为具体的标题文字
                 nodetext = BlogDirectory.htmlDecode(nodetext);
+				/**********************************/
+				/*锚点*/
                 //插入锚，也就是给正文标题处(<h2>或<h3>标签处)设置id
                 nodes[i].setAttribute("id", "blogTitle" + num);
 				//创建用于包含单个标题文字的标签，这些标签内的内容将被设置为标题文字，所有这样的标签都将会包含在所有标题的容器dlist中
@@ -224,18 +165,42 @@ var BlogDirectory = {
 				//设置包含单个标题文字的标签item的名字，如name="0"
                 item.setAttribute("name", num);
 				//设置item被点击后的动作（创建锚链接效果）
+				var timer  = null;
                 item.onclick = function(){//鼠标点击触发函数
-					//通过item中的name值获得对应标题元素的位置
-                    var pos = BlogDirectory.getElementPosition(document.getElementById("blogTitle" + this.getAttribute("name")));
-					//传入标题元素到顶部的距离调用BlogDirectory.moveScrollBar函数进行窗口滚动，滚动失败则返回false
-                    if(!BlogDirectory.moveScrollBar(pos.top, interval)) return false;
+					//若不支持此方法，则退出
+					if(!window.scrollTo) {
+						return false;
+					}
+					//获取标题到顶部的距离
+					var pos = BlogDirectory.getElementPosition(document.getElementById("blogTitle" + this.getAttribute("name")));
+					finalpositon = pos.top;
+					
+					cancelAnimationFrame(timer)
+					timer = requestAnimationFrame(function fn(){
+						//窗体滚动时，禁用鼠标滚轮
+						window.onmousewheel = function(){
+							return false;
+						};
+						//滚动条到顶部的距离减去标题到顶部的距离
+						var s = BlogDirectory.getScrollBarPosition() - finalpositon;
+						if(s <= 0 && s >= -10){
+							cancelAnimationFrame(timer);
+							window.onmousewheel = function(){
+							return true;
+							};
+						}else{
+							scrollTo(0,BlogDirectory.getScrollBarPosition() - s/15);
+							timer = requestAnimationFrame(fn);
+						}
+					});
+					
                 };
                 //将包含单个标题文字的标签item加入用于包含所有标题的容器dlist中
                 dlist.appendChild(item);
 				//每生成并设置好一个标题，num加1用于下一个标题的锚点
                 num++;
             }
-			//if(nodes[i].nodeName == mt|| nodes[i].nodeName == st)结束
+			//if结束
         }
 		//for(var i=0; i<nodes.length; i++)结束
         
@@ -301,7 +266,7 @@ var BlogDirectory = {
 //BlogDirectory结束
 
 window.onload=function(){
-    /*页面加载完成之后生成博客目录*/
+    /*页面加载完成之后开始生成目录*/
     BlogDirectory.createBlogDirectory("cnblogs_post_body","h2","h3","h1","h4","h5","h6",10);
 }
 </script>
